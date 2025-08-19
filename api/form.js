@@ -39,6 +39,19 @@ Pet Name: ${petName || "N/A"}
 Message: ${message || "N/A"}`
     });
 
+    await client.messages.create({
+      from: "whatsapp:+14155238886",
+      to: "whatsapp:+923237560007",
+      body: `🐾 New Appointment Request:
+Name: ${name}
+Phone: ${phone}
+Email: ${email}
+Date: ${date} ${timeHour}:${timeMin} ${timeAMPM}
+Pets: ${numPets} ${petType}(s)
+Pet Name: ${petName || "N/A"}
+Message: ${message || "N/A"}`
+    });
+
     console.log("✅ WhatsApp message sent successfully");
     res.status(201).json({ success: true, msg: "Form submitted successfully!" });
   } catch (error) {
