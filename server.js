@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import formRoutes from "./api/form.js";
+import twilioWebhook from "./api/twilioWebhook.js";
 
 dotenv.config();
 connectDB();
@@ -39,6 +40,9 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/form", formRoutes);
+
+app.use("/api/twilio", twilioWebhook);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
