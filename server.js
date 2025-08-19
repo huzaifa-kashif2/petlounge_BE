@@ -9,13 +9,11 @@ connectDB();
 
 const app = express();
 
-// Allowed origins
 const allowedOrigins = [
   "https://petlounge.vercel.app",
   "http://localhost:5173"
 ];
 
-// CORS middleware
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true); // allow Postman/curl
@@ -28,10 +26,18 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// Handle preflight requests
-app.options("*", cors());
-
 app.use(express.json());
+
+// Handle OPTIONS preflight for all routes
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.use("/api/form", formRoutes);
 
 const PORT = process.env.PORT || 5000;
