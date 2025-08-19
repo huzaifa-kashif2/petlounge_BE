@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
-import formRoutes from "./routes/formRoutes.js";
+import formRoutes from "./api/form.js";
 
 dotenv.config();
 connectDB();
