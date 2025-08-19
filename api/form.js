@@ -1,4 +1,5 @@
 import twilio from "twilio";
+import Form from "../models/formSchema.js"; 
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -23,6 +24,21 @@ export default async function handler(req, res) {
     const SID = process.env.TWILIO_SID;
     const AUTH = process.env.TWILIO_AUTH;
     const client = twilio(SID, AUTH);
+    const form = new Form({
+      name,
+      phone,
+      email,
+      date,
+      timeHour,
+      timeMin,
+      timeAMPM,
+      numPets,
+      petType,
+      petName,
+      message,
+    });
+    await form.save();
+
 
     console.log("Received form data:", req.body);
 
