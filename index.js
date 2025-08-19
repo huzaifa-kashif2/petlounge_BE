@@ -9,25 +9,29 @@ connectDB();
 
 const app = express();
 
-// Allow requests from deployed frontend and local dev
+// Allowed origins
 const allowedOrigins = [
   "https://petlounge.vercel.app",
   "http://localhost:5173"
 ];
 
+// CORS middleware
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // allow Postman or curl requests
+    if (!origin) return callback(null, true); // allow Postman/curl
     if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = `The CORS policy for this site does not allow access from the specified origin.`;
-      return callback(new Error(msg), false);
+      return callback(new Error("CORS not allowed for this origin"), false);
     }
     return callback(null, true);
-  }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-app.use(express.json());
+// Handle preflight requests
+app.options("*", cors());
 
+app.use(express.json());
 app.use("/api/form", formRoutes);
 
 const PORT = process.env.PORT || 5000;
