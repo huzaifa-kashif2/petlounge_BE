@@ -1,9 +1,8 @@
-import Form from "../models/formSchema.js";
 import twilio from "twilio";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ success: false, msg: "Method Not Allowed" });
+    return res.status(405).json({ success: false, msg: "Method not allowed" });
   }
 
   try {
@@ -26,22 +25,6 @@ export default async function handler(req, res) {
     const client = twilio(SID, AUTH);
 
     console.log("Received form data:", req.body);
-    console.log(SID, AUTH);
-
-    const form = new Form({
-      name,
-      phone,
-      email,
-      date,
-      timeHour,
-      timeMin,
-      timeAMPM,
-      numPets,
-      petType,
-      petName,
-      message,
-    });
-    await form.save();
 
     await client.messages.create({
       from: "whatsapp:+14155238886",
