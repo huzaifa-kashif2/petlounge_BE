@@ -1,0 +1,34 @@
+import twilio from "twilio";
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ success: false, msg: "Method not allowed" });
+  }
+
+  try {
+    const { name, phone, email, date, timeHour, timeMin, timeAMPM, numPets, petType, petName, message } = req.body;
+
+    const SID = process.env.TWILIO_SID;
+    const AUTH = process.env.TWILIO_AUTH;
+    const client = twilio(SID, AUTH);
+
+    await client.messages.create({
+      from: "whatsapp:+14155238886",
+      to: "whatsapp:+923068748112",
+      body: `🐾 New Appointment Request:
+Name: ${name}
+Phone: ${phone}
+Email: ${email}
+Date: ${date} ${timeHour}:${timeMin} ${timeAMPM}
+Pets: ${numPets} ${petType}(s)
+Pet Name: ${petName || "N/A"}
+Message: ${message || "N/A"}`
+    });
+
+    console.log("✅ WhatsApp message sent successfully:", req.body);
+    res.status(201).json({ success: true, msg: "WhatsApp message sent successfully!" });
+  } catch (error) {
+    console.error("❌ Twilio Error:", error);
+    res.status(500).json({ success: false, msg: "Server Error" });
+  }
+}
