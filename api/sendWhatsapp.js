@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 
     await client.messages.create({
       from: "whatsapp:+14155238886",
-      to: "whatsapp:+923068748112",
+      to: "whatsapp:+923070444055",
       body: `🐾 New Appointment Request:
 Name: ${name}
 Phone: ${phone}

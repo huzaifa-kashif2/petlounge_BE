@@ -19,7 +19,7 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // allow Postman/curl
+    if (!origin) return callback(null, true); 
     if (allowedOrigins.indexOf(origin) === -1) {
       return callback(new Error("CORS not allowed for this origin"), false);
     }
@@ -31,7 +31,6 @@ app.use(cors({
 
 app.use(express.json());
 
-// Handle OPTIONS preflight for all routes
 app.use((req, res, next) => {
   if (req.method === "OPTIONS") {
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
